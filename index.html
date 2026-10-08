@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TuneFlow</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0b10;--side:#0e0e15;--card:#1c1c26;--line:#23232f;--text:#fff;--mute:#8a8aa8;--dim:#5d5d78;--p:#8b5cf6;--p2:#6d28d9;box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',system-ui,sans-serif;font-size:14px;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.hidden{display:none!important}
+.logo{display:flex;align-items:center;gap:12px;font-size:22px;font-weight:600}
+.logo i{width:36px;height:36px;border-radius:10px;background:var(--p);display:grid;place-items:center;box-shadow:0 0 24px #8b5cf655;font-style:normal}
+svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* auth */
+#auth{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}
+.hero{position:relative;overflow:hidden;background:radial-gradient(circle at 50% 38%,#4a3a8a 0,#241a52 30%,#0d0b22 65%),#0d0b22;display:flex;flex-direction:column;justify-content:flex-end;padding:40px}
+.hero:before{content:"";position:absolute;left:18%;top:28%;width:230px;height:300px;border-radius:50% 50% 40% 40%;background:radial-gradient(circle at 50% 40%,#7a6ab0,#3a2e75 60%,transparent 72%);filter:blur(6px);opacity:.8}
+.hero>*{position:relative}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;color:#a78bfa;text-transform:uppercase}
+.hero h1{font-size:46px;font-weight:400;line-height:1.05;margin:14px 0 12px}
+.stats{display:flex;gap:28px;margin-top:28px}.stats b{display:block;font-size:17px}.stats span{font-size:10px;color:#a9a9d0}
+.formside{padding:48px 48px 32px;background:linear-gradient(160deg,#171720,#101018);display:flex;flex-direction:column}
+.form{width:100%;max-width:400px;margin:0 auto;flex:1}
+.tag{color:var(--mute);font-size:13px;margin:6px 0 40px}
+.form h2{font-size:26px;font-weight:600}.sub{color:var(--mute);margin:10px 0 30px}
+.in{width:100%;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.in::placeholder{color:var(--dim)}
+.link{color:#a78bfa;font-size:13px}
+.btn{width:100%;background:var(--p);border-radius:14px;padding:17px;font-weight:600;margin-top:22px}
+.btn:hover{background:#9b72ff}
+.or{display:flex;align-items:center;gap:14px;color:var(--dim);font-size:12px;margin:28px 0 20px}.or:before,.or:after{content:"";flex:1;height:1px;background:var(--line)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ghost{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;font-weight:500}
+.foot{text-align:center;color:var(--dim);font-size:13px;margin-top:24px}
+/* app */
+#app{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
+aside{background:var(--side);border-right:1px solid var(--line);padding:28px 16px 16px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+aside .logo{padding:0 10px;margin-bottom:36px}
+.menu{font-size:11px;letter-spacing:.12em;color:var(--dim);padding:0 14px;margin-bottom:14px}
+nav{display:flex;flex-direction:column;gap:6px;flex:1}
+nav button{display:flex;align-items:center;gap:16px;padding:14px;border-radius:14px;color:var(--mute);text-align:left;width:100%}
+nav button:hover{background:#161620}
+nav button.on{background:linear-gradient(90deg,#2a1f4d,#1d1733);color:#fff}
+nav button.on svg{stroke:var(--p);fill:#8b5cf6}
+.me{display:flex;align-items:center;gap:12px;border-top:1px solid var(--line);padding:16px 10px 4px}
+.av{width:38px;height:38px;border-radius:50%;background:var(--p);display:grid;place-items:center;font-weight:600;font-size:13px;flex:none}
+.me b{display:block;font-size:12px}.me span{font-size:10px;color:#a78bfa}
+main{padding:44px 72px 60px;max-width:1100px;width:100%}
+h1.t{font-size:26px;font-weight:600;margin-bottom:22px}
+h3{font-size:16px;font-weight:600;margin:26px 0 14px}
+.search{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:0 18px;color:var(--mute)}
+.search input{flex:1;background:none;border:0;padding:17px 0;outline:0}
+.search:focus-within{border-color:var(--p)}
+.recent{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.rc{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:12px;padding:10px;text-align:left}
+.cov{width:44px;height:44px;border-radius:8px;flex:none}
+.sn{font-weight:600;font-size:12.5px}.ar{font-size:11px;color:var(--mute);margin-top:3px}
+.tracks{display:grid;grid-template-columns:1fr 1fr;column-gap:40px}
+.tr{display:flex;align-items:center;gap:14px;padding:10px 6px;border-radius:10px;width:100%;text-align:left}
+.tr:hover{background:#14141d}
+.tr .n{width:14px;color:var(--dim);font-size:12px}
+.tr .cov{width:46px;height:46px}.tr .sn{font-size:14px}.tr .ar{font-size:12px}
+.tr .d{margin-left:auto;color:var(--dim);font-size:12px}
+.tr.play .sn{color:#a78bfa}
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.cat{height:65px;border-radius:14px;padding:0 16px;text-align:left;font-weight:600;position:relative;overflow:hidden}
+.cat:after{content:"";position:absolute;right:-12px;bottom:-14px;width:44px;height:44px;border-radius:50%;background:#ffffff2e}
+.pills{display:flex;gap:10px;margin-bottom:34px}
+.pill{padding:10px 18px;border-radius:99px;background:var(--card);color:var(--mute);font-weight:500;font-size:13px}
+.pill.on{background:var(--p);color:#fff}
+.liked{display:flex;align-items:center;gap:16px;background:linear-gradient(90deg,#4c1d95,#6d28d9);border-radius:18px;padding:16px 14px;margin-bottom:18px}
+.liked i{width:48px;height:48px;border-radius:12px;background:#ffffff22;display:grid;place-items:center}
+.liked svg{fill:#a78bfa;stroke:#a78bfa}
+.card{background:#12121a;border:1px solid var(--line);border-radius:22px;padding:22px}
+.up{display:grid;grid-template-columns:1fr 1.1fr;gap:20px}
+.card h4{font-size:16px;margin-bottom:6px}.card p.s{color:var(--mute);font-size:12px;margin-bottom:20px}
+.drop{border:1px dashed #3a3a50;border-radius:16px;height:132px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;margin-bottom:14px;width:100%;color:var(--dim);font-size:11px}
+.drop i{width:36px;height:36px;border-radius:10px;background:#2a2150;display:grid;place-items:center;color:#a78bfa;margin-bottom:4px}
+.drop b{color:#fff;font-size:13px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{display:block;font-size:12px;font-weight:500;margin-bottom:8px}
+.card .in{padding:14px;margin-bottom:16px;border-radius:12px;font-size:13px}
+textarea.in{height:86px;resize:vertical}
+.acts{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+.acts button{width:auto;margin:0;padding:14px 20px;font-size:13px}
+.prof{text-align:center}
+.pic{width:80px;height:80px;border-radius:50%;border:3px solid var(--p);margin:0 auto 18px;background:linear-gradient(135deg,#f3c9a0,#e79b6b 40%,#6aa3c9)}
+.prof h2{font-size:20px}.handle{color:var(--mute);font-size:12px;margin:8px 0 18px}
+.st{display:flex;justify-content:center;gap:32px}.st b{display:block;font-size:20px}.st span{font-size:11px;color:var(--mute)}
+.left{text-align:left}
+.artists{display:flex;gap:14px}.artists div{text-align:center;font-size:11px;color:var(--mute)}
+.artists i{display:block;width:60px;height:60px;border-radius:50%;margin-bottom:6px}
+.set button{display:flex;justify-content:space-between;width:100%;padding:17px 0;border-bottom:1px solid var(--line);text-align:left}
+.set svg{color:var(--dim);width:16px}
+.out{color:#f87171;padding:20px 0;display:block}
+/* player + toast */
+#bar{position:fixed;left:232px;right:0;bottom:0;background:#12121aee;backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 24px;display:flex;align-items:center;gap:14px;transform:translateY(100%);transition:transform .25s}
+#bar.show{transform:none}
+#bar .grow{flex:1;height:4px;background:var(--line);border-radius:4px;overflow:hidden;max-width:420px}#bar .grow i{display:block;height:100%;width:0;background:var(--p)}
+.pbtn{width:38px;height:38px;border-radius:50%;background:var(--p);display:grid;place-items:center}
+#toast{position:fixed;top:20px;left:50%;transform:translate(-50%,-80px);background:var(--p);padding:12px 20px;border-radius:12px;font-weight:500;transition:transform .25s;z-index:9}
+#toast.show{transform:translate(-50%,env(safe-area-inset-top,0px))}
+@media(max-width:860px){
+#auth{grid-template-columns:1fr}.hero{display:none}.formside{padding:32px 22px}
+#app{grid-template-columns:1fr}
+aside{position:fixed;bottom:0;top:auto;left:0;right:0;height:auto;flex-direction:row;padding:6px;z-index:5;border-right:0;border-top:1px solid var(--line)}
+aside .logo,aside .menu,.me{display:none}
+nav{flex-direction:row;justify-content:space-around}nav button{flex-direction:column;gap:4px;padding:8px;font-size:10px;justify-content:center;align-items:center}
+main{padding:28px 18px 100px}
+.recent,.cats{grid-template-columns:1fr 1fr}.tracks,.up,.g2{grid-template-columns:1fr}
+#bar{left:0;bottom:62px}
+}
+
+/* now playing */
+#np{position:fixed;inset:0;z-index:8;background:radial-gradient(circle at 85% 0,#1a1530,#0b0b10 55%);padding:calc(24px + env(safe-area-inset-top,0px)) 24px calc(24px + env(safe-area-inset-bottom,0px));overflow-y:auto}
+.npw{max-width:960px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
+.nph{display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:.1em;color:#8a8ac0}
+.nph button{color:#fff;width:32px;height:32px;display:grid;place-items:center}
+.npm{flex:1;display:grid;grid-template-columns:426px 1fr;gap:104px;align-items:center;padding:40px 0}
+#npc{width:100%;aspect-ratio:1;border-radius:28px;box-shadow:0 0 90px #6d28d96a}
+.npt{display:flex;justify-content:space-between;align-items:flex-start}
+.npt h2{font-size:22px;font-weight:600}
+.npt button{color:var(--mute)}.npt button.on{color:var(--p)}.npt button.on svg{fill:var(--p)}
+#npa{color:#a78bfa;font-size:13px;margin:10px 0 28px}
+#sk{position:relative;height:18px;cursor:pointer;display:flex;align-items:center}
+#sk:before{content:"";position:absolute;left:0;right:0;height:3px;border-radius:3px;background:#e8e8f4}
+#skf{position:absolute;left:0;height:3px;border-radius:3px;background:var(--p)}
+#skk{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:var(--p);transform:translate(-50%,-50%)}
+.tm{display:flex;justify-content:space-between;font-size:10px;color:var(--dim);margin-top:6px}
+.ctl{display:flex;justify-content:space-between;align-items:center;margin-top:30px}
+.ctl button{color:var(--mute);display:grid;place-items:center;width:40px;height:40px}
+.ctl button.on{color:var(--p)}
+.ctl .sk{color:#fff}.ctl svg{width:18px;height:18px}
+.ctl .big{width:64px;height:64px;border-radius:50%;background:var(--p);color:#fff;box-shadow:0 8px 30px #8b5cf666}
+.ctl .big svg{width:22px;height:22px;fill:#fff;stroke:#fff}
+@media(max-width:860px){.npm{grid-template-columns:1fr;gap:32px;padding:20px 0}#npc{max-width:340px;margin:0 auto}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="auth">
+  <section class="hero">
+    <div class="eyebrow">Music for every mood</div>
+    <h1>Find your flow.<br>Keep it playing.</h1>
+    <p style="font-size:13px">Discover new tracks, build playlists, and take your music everywhere.</p>
+    <div class="stats"><div><b>10M+</b><span>tracks</span></div><div><b>50K+</b><span>playlists</span></div><div><b>24/7</b><span>listening</span></div></div>
+  </section>
+  <section class="formside">
+    <div class="form">
+      <div class="logo"><i><svg viewBox="0 0 24 24" style="fill:#fff;stroke:#fff"><path d="M9 18V6l10-2v12"/><circle cx="7" cy="18" r="2.5"/><circle cx="17" cy="16" r="2.5"/></svg></i>TuneFlow</div>
+      <div class="tag">your music, your vibe.</div>
+      <h2>Welcome back</h2><p class="sub">Log in to keep listening</p>
+      <form id="login" onsubmit="return false">
+        <input class="in" type="email" placeholder="your@email.com" aria-label="Email">
+        <input class="in" type="password" placeholder="password" aria-label="Password">
+        <div style="text-align:right"><a class="link" href="#" onclick="return false">Forgot password?</a></div>
+        <button class="btn" onclick="enter()">Log in</button>
+      </form>
+      <div class="or">or continue with</div>
+      <div class="row2"><button class="ghost" onclick="enter()">Google</button><button class="ghost" onclick="enter()">Apple</button></div>
+    </div>
+    <div class="foot">Don't have an account? <a class="link" href="#" onclick="enter();return false">Sign up</a></div>
+  </section>
+</div>
+
+<div id="app" class="hidden">
+  <aside>
+    <div class="logo"><i><svg viewBox="0 0 24 24" style="fill:#fff;stroke:#fff"><path d="M9 18V6l10-2v12"/><circle cx="7" cy="18" r="2.5"/><circle cx="17" cy="16" r="2.5"/></svg></i>TuneFlow</div>
+    <div class="menu">MENU</div>
+    <nav id="nav"></nav>
+    <div class="me"><div class="av">AR</div><div><b>Alex Reyes</b><span>Student plan</span></div></div>
+  </aside>
+  <main id="main"></main>
+</div>
+
+<div id="bar"><div class="cov" id="bc" style="cursor:pointer" onclick="openNP()"></div><div style="cursor:pointer" onclick="openNP()"><div class="sn" id="bt"></div><div class="ar" id="ba"></div></div><button class="pbtn" id="pp" aria-label="Play or pause" onclick="toggle()"></button><div class="grow"><i id="pg"></i></div></div>
+<div id="np" class="hidden"><div class="npw">
+<div class="nph"><button onclick="closeNP()" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>NOW PLAYING<button aria-label="More" onclick="toast('More options coming soon')"><svg viewBox="0 0 24 24" style="fill:currentColor"><circle cx="12" cy="5" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="12" cy="19" r="1.3"/></svg></button></div>
+<div class="npm"><div id="npc"></div><div>
+<div class="npt"><h2 id="npn"></h2><button id="nph" aria-label="Like" onclick="likeNP()"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.5A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z"/></svg></button></div>
+<div id="npa"></div>
+<div id="sk" onclick="seek(event)"><div id="skf"></div><div id="skk"></div></div>
+<div class="tm"><span id="t1">0:00</span><span id="t2">0:00</span></div>
+<div class="ctl">
+<button id="bsh" aria-label="Shuffle" onclick="sh=!sh;this.classList.toggle('on',sh)"><svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg></button>
+<button class="sk" aria-label="Previous" onclick="prev()"><svg viewBox="0 0 24 24" style="fill:currentColor"><path d="M6 5v14M19 5v14l-10-7z"/></svg></button>
+<button class="big" id="npp" aria-label="Play or pause" onclick="toggle()"></button>
+<button class="sk" aria-label="Next" onclick="next()"><svg viewBox="0 0 24 24" style="fill:currentColor"><path d="M18 5v14M5 5v14l10-7z"/></svg></button>
+<button id="brp" aria-label="Repeat" onclick="rp=!rp;this.classList.toggle('on',rp)"><svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4M21 13v2a3 3 0 0 1-3 3H3"/></svg></button>
+</div></div></div></div></div>
+<div id="toast"></div>
+
+<script>
+const S=[
+["Blinding Lights","The Weeknd","3:20","linear-gradient(135deg,#1a1f4a,#2a1040)"],
+["As It Was","Harry Styles","2:47","linear-gradient(135deg,#9fc7c4,#d9d4cf 50%,#c0614a)"],
+["Levitating","Dua Lipa","3:23","radial-gradient(circle,#f2b84a,#5a3d10 70%)"],
+["Stay","Kid LAROI & Justin Bieber","2:21","#ff6a00"],
+["Heat Waves","Glass Animals","3:59","linear-gradient(135deg,#2a0f55,#8a2be2)"],
+["Cruel Summer","Taylor Swift","2:58","linear-gradient(135deg,#5b3d9b,#2a2a4a)"],
+["Bad Habit","Steve Lacy","3:52","radial-gradient(circle,#e8a64c,#4a2a1a 70%)"]];
+const I={
+home:'<path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>',
+search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+list:'<path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/>',
+up:'<path d="M12 16V4M7 9l5-5 5 5M4 16v4h16v-4"/>',
+user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
+chev:'<path d="M9 6l6 6-6 6"/>',
+heart:'<path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.5A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z"/>'};
+const ic=n=>`<svg viewBox="0 0 24 24">${I[n]}</svg>`;
+const PAGES=[["home","Home","home"],["search","Search","search"],["lib","My Playlist","list"],["up","Upload Music","up"],["prof","Profile","user"]];
+let cur="home",playing=null,isPlay=false,tm;
+const cov=(s,c="")=>`<div class="cov ${c}" style="background:${s[3]}"></div>`;
+const track=(i,n,extra="")=>{const s=S[i];return `<button class="tr ${playing===i?'play':''}" onclick="play(${i})">${n?`<span class="n">${n}</span>`:''}${cov(s)}<div><div class="sn">${s[0]}</div><div class="ar">${s[1]}</div></div><span class="d">${s[2]}</span></button>`};
+const V={
+home:()=>`<div class="ar" style="font-size:13px">Good evening,</div><h1 class="t" style="font-size:28px;margin:8px 0 22px">Alex 🎧</h1>
+<label class="search"><span>${ic('search')}</span><input placeholder="Search songs, artists..." aria-label="Search" onkeydown="if(event.key==='Enter')go('search')"></label>
+<h3 style="margin-top:28px">Recently played</h3><div class="recent">${[0,1,2,3].map(i=>`<button class="rc" onclick="play(${i})">${cov(S[i])}<div><div class="sn">${S[i][0]}</div><div class="ar">${S[i][1]}</div></div></button>`).join('')}</div>
+<h3>Recommended for you</h3><div class="tracks">${[2,3,4,5,6].map((x,k)=>track(x,k+1)).join('')}</div>`,
+search:()=>{const C=[["Pop","#7c3aed"],["Hip-Hop","#2563eb"],["R&B","#059669"],["Indie","#d97706"],["Electronic","#db2777"],["Rock","#0891b2"],["Lo-fi","#4338ca"],["Jazz","#7c3a10"]];
+return `<h1 class="t">Search</h1><label class="search"><span>${ic('search')}</span><input id="q" oninput="filt(this.value)" placeholder="Songs, artists, albums..." aria-label="Search"></label>
+<div id="res"><h3>Browse categories</h3><div class="cats">${C.map(c=>`<button class="cat" style="background:${c[1]}" onclick="toast('${c[0]} coming soon')">${c[0]}</button>`).join('')}</div></div>`},
+lib:()=>`<h1 class="t">My Library</h1><div class="pills"><button class="pill on" onclick="pillTab(this)">Liked Songs</button><button class="pill" onclick="pillTab(this)">Playlists</button></div>
+<div id="libc"><div class="liked"><i>${ic('heart')}</i><div><div class="sn" style="font-size:15px">Liked Songs</div><div class="ar" style="color:#d6c9ff">5 songs</div></div></div>${[0,1,2,3,4].map(i=>track(i,i+1)).join('')}</div>`,
+up:()=>`<div class="eyebrow">Artist Studio</div><h1 class="t" style="font-size:28px;margin:10px 0 6px">Upload your music</h1><p class="ar" style="font-size:13px;margin-bottom:22px">Add the details, upload your files, and share your next track.</p>
+<div class="up"><div class="card"><h4>Track files</h4><p class="s">High-quality artwork and audio help your release stand out.</p>
+<label class="drop" style="cursor:pointer"><input type="file" accept="image/*" hidden onchange="fileOk(this)"><i>${ic('up')}</i><b>Upload cover art</b>JPG or PNG · Square image</label>
+<label class="drop" style="cursor:pointer;margin:0"><input type="file" accept="audio/*" hidden onchange="fileOk(this)"><i>${ic('up')}</i><b>Upload audio file</b>MP3, WAV, or FLAC · Max 200MB</label></div>
+<div class="card"><div style="display:flex;justify-content:space-between"><h4>Track details</h4><span class="link" style="font-size:10px;color:#6f6fb0">Required fields</span></div><p class="s">Tell listeners about this release.</p>
+<div class="g2"><div><label for="a">Track title</label><input id="a" class="in" placeholder="Enter track title"></div><div><label for="b">Artist name</label><input id="b" class="in" value="Alex Reyes"></div>
+<div><label for="c">Genre</label><select id="c" class="in"><option>Pop</option><option>Hip-Hop</option><option>R&amp;B</option><option>Indie</option><option>Electronic</option><option>Rock</option><option>Lo-fi</option><option>Jazz</option></select></div>
+<div><label for="d">Release date</label><input id="d" type="date" class="in" style="color-scheme:dark"></div></div>
+<label for="e">Description</label><textarea id="e" class="in" placeholder="Share the story behind your track..."></textarea></div></div>
+<div class="acts"><button class="ghost" onclick="toast('Draft saved')">Save draft</button><button class="btn" onclick="pub()">Publish track</button></div>`,
+prof:()=>`<div class="prof"><div class="pic"></div><h2>Alex Reyes</h2><div class="handle">@alexreyes · Student @ UCLA</div><div class="st"><div><b>342</b><span>Songs</span></div><div><b>12</b><span>Playlists</span></div><div><b>184</b><span>Hours</span></div></div></div>
+<div class="left"><h3 style="margin-top:46px">Top Artists</h3><div class="artists">${[["The Weeknd","#1c1c26"],["Taylor Swift","linear-gradient(135deg,#9fc7c4,#2a4a48)"],["Dua Lipa","linear-gradient(135deg,#c0392b,#2a1a3a)"],["Steve Lacy","linear-gradient(135deg,#cfd8dc,#7a8a90)"]].map(a=>`<div><i style="background:${a[1]}"></i>${a[0]}</div>`).join('')}</div>
+<h3 style="margin-top:34px">Settings</h3><div class="set">${["Account","Notifications","Audio Quality","Privacy","About"].map(x=>`<button onclick="toast('${x} opens here')">${x}${ic('chev')}</button>`).join('')}</div>
+<button class="out" onclick="logout()">Log out</button></div>`};
+function render(){
+  document.getElementById('nav').innerHTML=PAGES.map(p=>`<button class="${cur===p[0]?'on':''}" onclick="go('${p[0]}')">${ic(p[2])}<span>${p[1]}</span></button>`).join('');
+  document.getElementById('main').innerHTML=V[cur]();
+}
+function go(p){cur=p;render();scrollTo(0,0)}
+function enter(){auth.classList.add('hidden');app.classList.remove('hidden');render()}
+function logout(){app.classList.add('hidden');auth.classList.remove('hidden');stop();bar.classList.remove('show')}
+function pillTab(b){document.querySelectorAll('.pill').forEach(x=>x.classList.toggle('on',x===b));
+  libc.innerHTML=b.textContent==='Playlists'?'<p class="ar" style="font-size:13px">No playlists yet. Create one from any song.</p>':V.lib().match(/<div id="libc">([\s\S]*)<\/div>$/)[1]}
+function filt(v){v=v.toLowerCase().trim();if(!v){res.innerHTML=V.search().match(/<div id="res">([\s\S]*)<\/div>$/)[1];return}
+  const m=S.map((s,i)=>i).filter(i=>(S[i][0]+S[i][1]).toLowerCase().includes(v));
+  res.innerHTML=`<h3>Results</h3>${m.length?m.map(i=>track(i,'')).join(''):'<p class="ar" style="font-size:13px">No matches. Try a different song or artist.</p>'}`}
+let pr=0,sh=false,rp=false;const liked=new Set();
+const secs=t=>{const[m,s]=t.split(':');return m*60+ +s};
+const fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+function play(i){playing=i;isPlay=true;pr=0;load();run();openNP()}
+function load(){const s=S[playing];[bc,npc].forEach(e=>e.style.background=s[3]);bt.textContent=npn.textContent=s[0];ba.textContent=npa.textContent=s[1];t2.textContent=s[2];nph.classList.toggle('on',liked.has(playing));bar.classList.add('show');setBtn();paint()}
+function paint(){pg.style.width=skf.style.width=pr+'%';skk.style.left=pr+'%';t1.textContent=fmt(pr/100*secs(S[playing][2]))}
+function setBtn(){const h=`<svg viewBox="0 0 24 24" style="fill:#fff;stroke:#fff;width:18px;height:18px">${isPlay?'<path d="M8 5v14M16 5v14" stroke-width="3.5"/>':'<path d="M7 4l13 8-13 8z"/>'}</svg>`;pp.innerHTML=npp.innerHTML=h}
+function run(){clearInterval(tm);if(isPlay)tm=setInterval(()=>{pr+=.25/secs(S[playing][2])*100;if(pr>=100){rp?(pr=0):next()}paint()},250)}
+function toggle(){isPlay=!isPlay;setBtn();run()}
+function next(){playing=sh?Math.floor(Math.random()*S.length):(playing+1)%S.length;pr=0;load();run()}
+function prev(){if(pr>5)pr=0;else playing=(playing-1+S.length)%S.length;load();run()}
+function seek(e){const r=sk.getBoundingClientRect();pr=Math.max(0,Math.min(100,(e.clientX-r.left)/r.width*100));paint()}
+function likeNP(){liked.has(playing)?liked.delete(playing):liked.add(playing);nph.classList.toggle('on',liked.has(playing))}
+function openNP(){if(playing===null)return;np.classList.remove('hidden')}
+function closeNP(){np.classList.add('hidden');if(cur!=='search')render()}
+function stop(){clearInterval(tm);isPlay=false;playing=null;np.classList.add('hidden')}
+let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2000)}
+function fileOk(i){if(i.files[0])toast(i.files[0].name+' added')}
+function pub(){toast(a.value.trim()?'Published':'Add a track title to publish')}
+</script>
+</body>
+</html>
